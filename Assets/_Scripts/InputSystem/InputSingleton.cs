@@ -1,0 +1,48 @@
+using UnityEngine;
+
+public class InputSingleton<T> : MonoBehaviour where T : MonoBehaviour
+{
+    private static T instance;
+    public static T Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<T>();
+                if (instance == null)
+                {
+                    GameObject singleton = new GameObject(typeof(T).Name);
+                    instance = singleton.AddComponent<T>();
+                }
+            }
+            return instance;
+        }
+    }
+
+    protected PlayerInputActions inputActions;
+
+    protected virtual void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this as T;
+            inputActions = new PlayerInputActions();
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnEnable()
+    {
+        inputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+}
