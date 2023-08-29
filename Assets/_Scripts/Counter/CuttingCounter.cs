@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CuttingCounter : BaseCounter
 {
-    [SerializeField] private KitchenObjectSO kitchenObjectSO;
+    [SerializeField] private CuttingRecipeSO[] cuttingRecipeSOArray;
     public override void Interact(PlayerMovement player)
     {
         if (HasKitchenObject())
@@ -26,8 +24,22 @@ public class CuttingCounter : BaseCounter
     {
         if (HasKitchenObject())
         {
+            KitchenObjectSO outputKitchenObjectSo = getOutPutKitchenObjectSo(GetKitchenObject().KitchenObjectSO);
+            if (outputKitchenObjectSo == null) return;
             GetKitchenObject().DestroySelf();
-            KitchenObject.SpawnKitchenObject(kitchenObjectSO, this);
+            KitchenObject.SpawnKitchenObject(outputKitchenObjectSo, this);
         }
+    }
+
+    private KitchenObjectSO getOutPutKitchenObjectSo(KitchenObjectSO kitchenObjectSo)
+    {
+        foreach (CuttingRecipeSO cuttingRecipeSo in cuttingRecipeSOArray)
+        {
+            if (cuttingRecipeSo.input == kitchenObjectSo)
+            {
+                return cuttingRecipeSo.output;
+            }
+        }
+        return null;
     }
 }
