@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class KitchenObject : MonoBehaviour
 {
-    [SerializeField] private KitchenObjectSO kitchenObjectSO;
-    public KitchenObjectSO KitchenObjectSO => kitchenObjectSO;
+    [SerializeField] private KitchenObjectSO kitchenObjectSo;
+    public KitchenObjectSO KitchenObjectSo => kitchenObjectSo;
     [SerializeField] private IKitchenObjectParent kitchenObjectParent;
-    public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
+    public void SetKitchenObjectParent(IKitchenObjectParent kitchenParent)
     {
-        if(this.kitchenObjectParent != null)
+        if(kitchenObjectParent != null)
         {
-            this.kitchenObjectParent.ClearKitchenObject();
+            kitchenObjectParent.ClearKitchenObject();
         }
-        this.kitchenObjectParent = kitchenObjectParent;
+        kitchenObjectParent = kitchenParent;
 
-        if (this.kitchenObjectParent.HasKitchenObject())
+        if (kitchenObjectParent.HasKitchenObject())
         {
             Debug.LogError("Counter already has a KitchenObjectParent");
         }
-        this.kitchenObjectParent.SetKitchenObject(this);
+        kitchenObjectParent.SetKitchenObject(this);
         transform.parent = this.kitchenObjectParent.GetKitchenObjectFollowTranform();
         transform.localPosition = Vector3.zero;
     }
@@ -33,10 +33,10 @@ public class KitchenObject : MonoBehaviour
         
     }
 
-    public static KitchenObject SpawnKitchenObject(KitchenObjectSO kitchenObjectSO, IKitchenObjectParent parent)
+    public static KitchenObject SpawnKitchenObject(KitchenObjectSO kitchenObjectSo, IKitchenObjectParent parent)
     {
-        Transform KitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
-        KitchenObject kitchen = KitchenObjectTransform.GetComponent<KitchenObject>();
+        Transform kitchenObjectTransform = Instantiate(kitchenObjectSo.prefab);
+        KitchenObject kitchen = kitchenObjectTransform.GetComponent<KitchenObject>();
         kitchen.SetKitchenObjectParent(parent);
         return kitchen;
     }

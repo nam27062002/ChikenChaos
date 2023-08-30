@@ -1,4 +1,6 @@
 using System;
+using _Scripts.Counter;
+using _Scripts.Player;
 using UnityEngine;
 
 public class ContainerCounter : BaseCounter

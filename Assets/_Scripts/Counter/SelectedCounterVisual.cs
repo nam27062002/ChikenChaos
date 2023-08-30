@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Counter;
+using _Scripts.Player;
 using UnityEngine;
 
 public class SelectedCounterVisual : MonoBehaviour
@@ -15,7 +17,7 @@ public class SelectedCounterVisual : MonoBehaviour
 
     private void Player_OnSelectedCounterChanged(object sender, PlayerMovement.OnSelectedCounterChangedEventArgs e)
     {
-        if (e.selectedCounter == baseCounter)
+        if (e.SelectedCounter == baseCounter)
         {
             Show();
         }
