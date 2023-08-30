@@ -4,17 +4,14 @@ using UnityEngine;
 
 namespace _Scripts.Counter
 {
-    public class CuttingCounter : BaseCounter
+    public class CuttingCounter : BaseCounter, IHasProgress
     {
-        public event EventHandler<OnProgressChangedEventArgs> OnProgressChange;
         [SerializeField] private CuttingRecipeSO[] cuttingRecipeSoArray;
         private int cuttingProgress;
         private CuttingRecipeSO cutting;
+        public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChange;
+
         public event EventHandler OnCutting;
-        public class OnProgressChangedEventArgs : EventArgs
-        {
-            public float ProgressNormalized;
-        }
         public override void Interact(PlayerMovement player)
         {
             if (HasKitchenObject())
@@ -66,10 +63,12 @@ namespace _Scripts.Counter
         }
         private void SetOnProgressChange()
         {
-            OnProgressChange?.Invoke(this, new OnProgressChangedEventArgs
+            OnProgressChange?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs()
             {
-                ProgressNormalized = (float)cuttingProgress / cutting.CuttingProcessMax
+                ProgressNormalized = (float) cuttingProgress/cutting.CuttingProcessMax
             });
         }
+
+
     }
 }
