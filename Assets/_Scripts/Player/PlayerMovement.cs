@@ -1,5 +1,6 @@
 ﻿using System;
 using _Scripts.Counter;
+using _Scripts.Objects;
 using UnityEngine;
 
 namespace _Scripts.Player

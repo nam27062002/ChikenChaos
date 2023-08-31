@@ -1,4 +1,5 @@
 using System;
+using _Scripts.Objects;
 using _Scripts.Player;
 using UnityEngine;
 
@@ -98,6 +99,18 @@ namespace _Scripts.Counter
                 if (!player.HasKitchenObject())
                 {
                     GetKitchenObject().SetKitchenObjectParent(player);
+                }
+                else
+                {
+                    if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                    {
+                        if (plateKitchenObject != null)
+                        {
+                            if (plateKitchenObject.IsKitchenObjectExist(GetKitchenObject().KitchenObjectSo) || !plateKitchenObject.IsValidKitchenObject(GetKitchenObject().KitchenObjectSo)) return;
+                            plateKitchenObject.AddIngredient(GetKitchenObject().KitchenObjectSo);
+                            GetKitchenObject().DestroySelf();
+                        }
+                    }
                 }
             }
             else

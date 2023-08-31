@@ -1,28 +1,48 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using _Scripts.Counter;
+﻿using _Scripts.Objects;
 using _Scripts.Player;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class ClearCounter : BaseCounter
+namespace _Scripts.Counter
 {
-    public override void Interact(PlayerMovement player)
+    public class ClearCounter : BaseCounter
     {
-        if (HasKitchenObject())
+        public override void Interact(PlayerMovement player)
         {
-            if (!player.HasKitchenObject())
+            if (HasKitchenObject())
             {
-                GetKitchenObject().SetKitchenObjectParent(player);
+                if (!player.HasKitchenObject())
+                {
+                    GetKitchenObject().SetKitchenObjectParent(player);
+                }
+                else
+                {
+                    if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                    {
+                        if (plateKitchenObject != null)
+                        {
+                            if (plateKitchenObject.IsKitchenObjectExist(GetKitchenObject().KitchenObjectSo) || !plateKitchenObject.IsValidKitchenObject(GetKitchenObject().KitchenObjectSo)) return;
+                            plateKitchenObject.AddIngredient(GetKitchenObject().KitchenObjectSo);
+                            GetKitchenObject().DestroySelf();
+                        }
+                    }
+                    else
+                    {
+                        if (GetKitchenObject().TryGetPlate(out plateKitchenObject))
+                        {
+                            if (plateKitchenObject.IsKitchenObjectExist(player.GetKitchenObject().KitchenObjectSo) || !plateKitchenObject.IsValidKitchenObject(player.GetKitchenObject().KitchenObjectSo)) return;
+                            plateKitchenObject.AddIngredient(player.GetKitchenObject().KitchenObjectSo);
+                            player.GetKitchenObject().DestroySelf();
+                        }
+                    }
+                }
             }
+            else
+            {
+                if (player.HasKitchenObject())
+                {
+                    player.GetKitchenObject().SetKitchenObjectParent(this);
+                }
+            }        
         }
-        else
-        {
-            if (player.HasKitchenObject())
-            {
-                player.GetKitchenObject().SetKitchenObjectParent(this);
-            }
-        }        
     }
 }

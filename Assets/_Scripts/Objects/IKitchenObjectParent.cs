@@ -1,4 +1,5 @@
 using System;
+using _Scripts.Objects;
 using UnityEngine;
 
 public interface IKitchenObjectParent 
