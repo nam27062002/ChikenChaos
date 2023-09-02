@@ -13,6 +13,7 @@ namespace _Scripts.Objects
         }
         [SerializeField] private List<KitchenObjectSO> validKitchenObjectSos;
         private List<KitchenObjectSO> kitchenObjectSos;
+        public List<KitchenObjectSO> KitchenObjectSos => kitchenObjectSos;
         private void Awake()
         {
             kitchenObjectSos = new List<KitchenObjectSO>();
@@ -30,11 +31,12 @@ namespace _Scripts.Objects
           
         public void AddIngredient(KitchenObjectSO kitchenObjectSo)
         {
+            kitchenObjectSos.Add(kitchenObjectSo);
             OnIngredientAdded?.Invoke(this,new OnIngredientAddedEventArgs()
             {
                 KitchenObjectSo = kitchenObjectSo
             });
-            kitchenObjectSos.Add(kitchenObjectSo);
+            
         }
     }
 }
