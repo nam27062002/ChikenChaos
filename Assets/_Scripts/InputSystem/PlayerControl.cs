@@ -1,14 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerControl : InputSingleton<PlayerControl>
 {
     public event EventHandler OnInteractAction;
     public event EventHandler OnInteractAlterateAction;
+    public event EventHandler OnPauseAction;
 
     private PlayerInputActions.PlayerActions playerActions;
 
@@ -20,6 +18,19 @@ public class PlayerControl : InputSingleton<PlayerControl>
         playerActions = inputActions.Player;
         playerActions.Interact.performed += Interact_performed;
         playerActions.IneractAlternate.performed += InteractAlternate_performed;
+        playerActions.Pause.performed += PauseOnperformed;
+    }
+
+    private void OnDestroy()
+    {
+        playerActions.Interact.performed -= Interact_performed;
+        playerActions.IneractAlternate.performed -= InteractAlternate_performed;
+        playerActions.Pause.performed -= PauseOnperformed;
+    }
+
+    private void PauseOnperformed(InputAction.CallbackContext context)
+    {
+        OnPauseAction?.Invoke(this,EventArgs.Empty);
     }
 
     private void Interact_performed(InputAction.CallbackContext context)
@@ -31,4 +42,5 @@ public class PlayerControl : InputSingleton<PlayerControl>
     {
         OnInteractAlterateAction?.Invoke(this, EventArgs.Empty);
     }
+    
 }

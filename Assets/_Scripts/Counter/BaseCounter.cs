@@ -9,7 +9,7 @@ namespace _Scripts.Counter
     {
     
         [SerializeField] private Transform counterTopPoint;
-
+        public static event EventHandler OnDropedSomething;
         private KitchenObject kitchenObject;
     
         public virtual void Interact(PlayerMovement player) {}
@@ -19,6 +19,7 @@ namespace _Scripts.Counter
         public void SetKitchenObject(KitchenObject o)
         {
             this.kitchenObject = o;
+            OnDropedSomething?.Invoke(this,EventArgs.Empty);
         }
 
         public void ClearKitchenObject()

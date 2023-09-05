@@ -27,13 +27,9 @@ public class InputSingleton<T> : MonoBehaviour where T : MonoBehaviour
         if (instance == null)
         {
             instance = this as T;
-            inputActions = new PlayerInputActions();
             DontDestroyOnLoad(gameObject);
         }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
+        inputActions = new PlayerInputActions();
     }
 
     private void OnEnable()

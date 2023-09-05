@@ -8,8 +8,8 @@ namespace _Scripts.Player
     public class PlayerMovement : MonoBehaviour,IKitchenObjectParent
     {
         private static PlayerMovement _instance;
-        public static PlayerMovement Instance => _instance; 
-
+        public static PlayerMovement Instance => _instance;
+        public event EventHandler OnPickedSomething;
         public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
         public class OnSelectedCounterChangedEventArgs : EventArgs
         {
@@ -30,7 +30,7 @@ namespace _Scripts.Player
         private Vector3 lastInteractDir;
         private BaseCounter selectedCounter;
         private KitchenObject kitchenObject;
-
+        public Vector3 MoveDir => moveDir;
         private void Awake()
         {
             if (_instance == null)
@@ -47,6 +47,7 @@ namespace _Scripts.Player
 
         private void GameInput_OnInteractAlterateAction(object sender, EventArgs e)
         {
+            if (!GameManager.Instance.IsGamePlaying()) return;
             if (selectedCounter != null)
             {
                 selectedCounter.IntetRactAlternate(this);
@@ -55,6 +56,7 @@ namespace _Scripts.Player
 
         private void GameInput_OnInteract(object sender, EventArgs e)
         {
+            if (!GameManager.Instance.IsGamePlaying()) return;
             if (selectedCounter != null)
             {
                 selectedCounter.Interact(this);
@@ -157,6 +159,7 @@ namespace _Scripts.Player
 
         public void SetKitchenObject(KitchenObject o)
         {
+            OnPickedSomething?.Invoke(this,EventArgs.Empty);
             this.kitchenObject = o;
         }
     

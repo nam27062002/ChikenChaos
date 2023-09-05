@@ -8,7 +8,7 @@ namespace _Scripts.Counter
     public class PlatesCounter : BaseCounter
     {
         private float spawnPlateTimer;
-        private readonly float spawnPlateTimerMax = 4f;
+        private readonly float spawnPlateTimerMax = 1f;
         private int platesSpawnedAmount;
         private readonly int platesSpawnedAmountMax = 4;
         public event EventHandler OnPlateSpawned;

@@ -11,8 +11,9 @@ namespace _Scripts.Counter
         private int cuttingProgress;
         private CuttingRecipeSO cutting;
         public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChange;
-
         public event EventHandler OnCutting;
+        public static event EventHandler OnAnyCut;
+
         public override void Interact(PlayerMovement player)
         {
             if (HasKitchenObject())
@@ -56,6 +57,7 @@ namespace _Scripts.Counter
             if (GetCuttingRecipeSo(GetKitchenObject().KitchenObjectSo) == null) return;
             cuttingProgress++;
             OnCutting?.Invoke(this, EventArgs.Empty);
+            OnAnyCut?.Invoke(this,EventArgs.Empty);
             SetOnProgressChange();
             if (cuttingProgress < cutting.CuttingProcessMax) return;
             GetKitchenObject().DestroySelf();
